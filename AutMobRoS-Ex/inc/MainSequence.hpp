@@ -28,9 +28,9 @@ public:
     {
         while (eeros::sequencer::Sequencer::running)
         {
-            sleep(1000.0);          // gets rid of anoying log outputs every second
             sleep(1.0);
-            log.info() << cs.myGain.getOut().getSignal();
+            // log.info() << cs.myGain.getOut().getSignal();
+            log.info() << cs.inputAccX.getOut().getSignal();
         }
         return 0;
     }

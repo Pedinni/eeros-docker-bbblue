@@ -35,6 +35,8 @@ int main(int argc, char **argv)
     eeros::safety::SafetySystem ss(sp, dt);
     cs.timedomain.registerSafetyEvent(ss, sp.doSystemOff); // fired if timedomain fails to run properly
     signal(SIGINT, signalHandler);
+    cs.signalChecker.registerSafetyEvent(ss, sp.doStop);
+    cs.signalChecker.setActiveLevel(sp.slMotorPowerOn);
 
     log.info() << "Initializing sequencer...";
     auto &sequencer = eeros::sequencer::Sequencer::instance();

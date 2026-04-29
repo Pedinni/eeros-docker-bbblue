@@ -24,9 +24,6 @@ MyRobotSafetyProperties::MyRobotSafetyProperties(ControlSystem &cs, double dt)
 {
     eeros::hal::HAL &hal = eeros::hal::HAL::instance();
 
-    eeros::logger::Logger::setDefaultStreamLogger(std::cout);
-    eeros::logger::Logger log = eeros::logger::Logger::getLogger();
-
     // Declare and add critical outputs
     // ... = hal.getLogicOutput("...");
     greenLED = hal.getLogicOutput("onBoardLEDgreen");
@@ -102,18 +99,18 @@ MyRobotSafetyProperties::MyRobotSafetyProperties(ControlSystem &cs, double dt)
     });
 
     slEmergency.setLevelAction([&](SafetyContext *privateContext) {
-
+        cs.signalChecker.reset();
     });
 
     slStopping.setLevelAction([&, dt](SafetyContext *privateContext) {
-        if (slStopping.getNofActivations()*dt >= 5)   // wait 5 sec
+        if (slStopping.getNofActivations()*dt >= 1)   // wait 5 sec
         {
             privateContext->triggerEvent(stopped);
         }
     });
 
     slSystemOn.setLevelAction([&, dt](SafetyContext *privateContext) {
-        if (slSystemOn.getNofActivations()*dt >= 5)   // wait 5 sec
+        if (slSystemOn.getNofActivations()*dt >= 1)   // wait 5 sec
         {
             privateContext->triggerEvent(doMotorOn);
         }
