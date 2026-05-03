@@ -28,8 +28,8 @@ ControlSystem::ControlSystem(double dt)
     // Add blocks to timedomain
     timedomain.addBlock(inputAccX);
     timedomain.addBlock(signalChecker);
-    timedomain.addBlock(inverterGain);
     timedomain.addBlock(motorVoltage);
+    timedomain.addBlock(inverterGain);
     timedomain.addBlock(outputMotor1Voltage);
     timedomain.addBlock(outputMotor2Voltage);
     
