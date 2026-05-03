@@ -1,30 +1,37 @@
 #include "ControlSystem.hpp"
 
 ControlSystem::ControlSystem(double dt)
-    : myConstant(1.0), myGain(2.0), 
+    : inverterGain(-1.0), 
       inputAccX("accX"), signalChecker(-2000, 2000),
+      motorVoltage(0.0), outputMotor1Voltage("motor1"), outputMotor2Voltage("motor2"),
       timedomain("Main time domain", dt, true)
 {
     // Name all blocks
-    myConstant.setName("My constant");
-    myGain.setName("My gain");
+    inverterGain.setName("Inverter gain");
     inputAccX.setName("Input Acceleration x");
     signalChecker.setName("Signal Checker");
+    motorVoltage.setName("Motor Voltage");
+    outputMotor1Voltage.setName("Output Motor 1 Voltage");
+    outputMotor2Voltage.setName("Output Motor 2 Voltage");
 
     // Name all signals
-    myConstant.getOut().getSignal().setName("My constant value");
-    myGain.getOut().getSignal().setName("My constant value multiplied with my gain");
     inputAccX.getOut().getSignal().setName("Input Acceleration x value");
+    inverterGain.getOut().getSignal().setName("Inverter gain");
+    motorVoltage.getOut().getSignal().setName("Motor Voltage value");
 
     // Connect signals
-    myGain.getIn().connect(myConstant.getOut());
     signalChecker.getIn().connect(inputAccX.getOut());
+    inverterGain.getIn().connect(motorVoltage.getOut());
+    outputMotor1Voltage.getIn().connect(inverterGain.getOut());
+    outputMotor2Voltage.getIn().connect(motorVoltage.getOut());
 
     // Add blocks to timedomain
-    timedomain.addBlock(myConstant);
-    timedomain.addBlock(myGain);
     timedomain.addBlock(inputAccX);
     timedomain.addBlock(signalChecker);
+    timedomain.addBlock(inverterGain);
+    timedomain.addBlock(motorVoltage);
+    timedomain.addBlock(outputMotor1Voltage);
+    timedomain.addBlock(outputMotor2Voltage);
     
     // Add timedomain to executor
     eeros::Executor::instance().add(timedomain);
