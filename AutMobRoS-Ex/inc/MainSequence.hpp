@@ -8,6 +8,27 @@
 #include "ControlSystem.hpp"
 #include <eeros/sequencer/Wait.hpp>
 #include "customSteps/setMotorVoltage.hpp"
+#include "customSequences/tiltExceededException.hpp"
+
+class CheckTilt : public eeros::sequencer::Condition
+{
+public:
+    // Initialise any neccessary attributes
+    CheckTilt(ControlSystem &cs) : cs(cs) {}
+
+    // Implement the validate method, return true if the monitor should fire
+    bool validate() 
+    { 
+        tilt = cs.inputAccX.getOut().getSignal().getValue();
+        tilt = abs(tilt);
+        return tilt > max_tilt;
+    }
+
+private:
+    ControlSystem &cs;
+    double tilt;
+    const double max_tilt = 1000.0;
+};
 
 class MainSequence : public eeros::sequencer::Sequence
 {
@@ -20,8 +41,15 @@ public:
           sp(sp),
           cs(cs),
           setMotorVoltage("set Motor Voltage", this, cs),
+
+          checkTilt(cs),
+          tiltMonitor("tilt monitor", this, checkTilt,
+                        eeros::sequencer::SequenceProp::resume, &tiltExceededException),
+          tiltExceededException("max tilt angle exceeded", this, cs),
+
           sleep("Sleep", this)
     {
+        addMonitor(&tiltMonitor);
         log.info() << "Sequence created: " << name;
     }
 
@@ -45,6 +73,10 @@ private:
     MyRobotSafetyProperties &sp;
 
     SetMotorVoltage setMotorVoltage;
+
+    CheckTilt checkTilt;
+    eeros::sequencer::Monitor tiltMonitor;
+    TiltExceededException tiltExceededException;
 
     eeros::sequencer::Wait sleep;
 };

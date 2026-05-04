@@ -1,5 +1,5 @@
-#ifndef CUSTOMSTEPTEMPLATE_HPP_
-#define CUSTOMSTEPTEMPLATE_HPP_
+#ifndef SETMOTORVOLTAGE_HPP_
+#define SETMOTORVOLTAGE_HPP_
 
 #include <eeros/sequencer/Step.hpp>
 
@@ -32,4 +32,4 @@ private:
     double voltage;
 };
 
-#endif // CUSTOMSTEPTEMPLATE_HPP_
+#endif // SETMOTORVOLTAGE_HPP_
