@@ -57,12 +57,12 @@ public:
     {
         while (eeros::sequencer::Sequencer::running)
         {
-            setMotorVoltage(1.0);
+            // setMotorVoltage(1.0);
+            // sleep(1.0);
+            // setMotorVoltage(-1.0);
             sleep(1.0);
-            setMotorVoltage(-1.0);
-            sleep(1.0);
-            // log.info() << cs.inverterGain.getOut().getSignal();
-            log.info() << cs.inputAccX.getOut().getSignal();
+            log.info() << cs.inputEnc1.getOut().getSignal();
+            // log.info() << cs.inputAccX.getOut().getSignal();
         }
         return 0;
     }

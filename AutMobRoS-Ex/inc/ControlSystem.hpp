@@ -20,6 +20,7 @@ public:
     Constant<> myConstant;
     Gain<> inverterGain;
     PeripheralInput<> inputAccX;
+    PeripheralInput<> inputEnc1;
     SignalChecker<> signalChecker;
     Constant<> motorVoltage;
     PeripheralOutput<> outputMotor1Voltage;
