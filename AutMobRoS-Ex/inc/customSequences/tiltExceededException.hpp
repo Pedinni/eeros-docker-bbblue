@@ -17,7 +17,7 @@ public:
     {
         // do something
         log.info() << "Tilt angle is outside of the allowed range!";
-        cs.motorVoltage.setValue(0.0);
+        cs.motorVoltage1.setValue(0.0);
         sleep(1.0);
         return 0;
     }

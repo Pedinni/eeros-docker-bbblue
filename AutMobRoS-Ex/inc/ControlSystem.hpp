@@ -8,6 +8,8 @@
 #include <eeros/control/PeripheralInput.hpp>
 #include <eeros/control/SignalChecker.hpp>
 #include <eeros/control/PeripheralOutput.hpp>
+#include <eeros/control/Saturation.hpp>
+#include <eeros/control/Switch.hpp>
 
 using namespace eeros::control;
 
@@ -20,11 +22,17 @@ public:
     Constant<> myConstant;
     Gain<> inverterGain;
     PeripheralInput<> inputAccX;
-    PeripheralInput<> inputEnc1;
+    PeripheralInput<> inputEnc2;
     SignalChecker<> signalChecker;
-    Constant<> motorVoltage;
+    Constant<> motorVoltage1;
     PeripheralOutput<> outputMotor1Voltage;
-    PeripheralOutput<> outputMotor2Voltage;
+    Gain<> x1;
+    Gain<> x2;
+    Gain<> x3;
+    Gain<> x4;
+    Saturation<> outputVelocitySaturation;
+    Saturation<> outputTorqueSaturation;
+    Switch<2> motorVoltageSwitch;
 
     TimeDomain timedomain;
 };

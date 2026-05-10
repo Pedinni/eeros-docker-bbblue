@@ -22,7 +22,7 @@ public:
     {
         // do something
         log.info() << "Step action executed: " << name << ", Voltage = " << voltage;
-        cs.motorVoltage.setValue(voltage);
+        cs.motorVoltage1.setValue(voltage);
         return 0;
     }
 

@@ -55,14 +55,15 @@ public:
 
     int action()
     {
+        cs.motorVoltageSwitch.switchToInput(0);             // 0 = Velocity Control, 1 = Torque Control at velocity 0
+        // setMotorVoltage(1.0);
         while (eeros::sequencer::Sequencer::running)
-        {
-            // setMotorVoltage(1.0);
-            // sleep(1.0);
-            // setMotorVoltage(-1.0);
+        {            
+            log.info() << cs.inputEnc2.getOut().getSignal();
+            log.info() << cs.x1.getOut().getSignal();
+            log.info() << cs.outputVelocitySaturation.getOut().getSignal();
+            log.info() << cs.outputMotor1Voltage.getIn().getSignal();
             sleep(1.0);
-            log.info() << cs.inputEnc1.getOut().getSignal();
-            // log.info() << cs.inputAccX.getOut().getSignal();
         }
         return 0;
     }
